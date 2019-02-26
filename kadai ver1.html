@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="JS/jquery-2.1.3.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/">
+    <title>Kadai ver.1</title>
+</head>
+<body>
+    <div id="mask1" class="hide"></div>
+    <div id="mask2" class="hide"></div>
+    <div id="wrapper">
+    <header>
+        <i id="humb" class="fas fa-bars"></i>
+        <img src="img/calendar_48dp.png" alt="">
+        <h1>ジーズ・カレンダー</h1>
+        <div id="today">TODAY</div>
+        <i id="arrow_left" class="fas fa-angle-left"></i>
+        <i id="arrow_right" class="fas fa-angle-right"></i>
+        <ul id="year_month">
+            <li>2018年</li>
+            <li>11月</li>
+        </ul>
+        <i id="search" class="fas fa-search"></i>
+        <div id="level">
+            <p>週</p>
+            <i id="down_arrow" class="fas fa-caret-down"></i>
+                <div id="hidden_level" class="hide">
+                    <p id="level_day">日</p>
+                    <p id="level_week">週</p>
+                    <p id="level_month">月</p>
+                    <p id="level_year">年</p>
+                </div>
+        </div>
+        <i id="option" class="fas fa-th"></i>
+        <i id="alert" class="fas fa-bell"></i>
+        <i id="user" class="fas fa-user"></i>
+
+
+    </header>
+
+    <section id="main"></section>
+    <i id="schedule_button" class="fas fa-plus-circle"></i>
+    <div id="schedule_box" class="hide">
+        <div id="schedule_box_header">
+            <i id="schedule_box_close" class="fas fa-times"></i>
+            <input id="title_box" type="text" placeholder="タイトルを追加">
+            <div id="save">保存</div>
+            <div id="schedule_time">
+                <input type="text" name="" id="from_date" value="">
+                <input type="text" name="" id="from_time" value=""> 〜
+                <input type="text" name="" id="till_time" value="">
+                <input type="text" name="" id="till_date" value="">
+            </div>
+        </div>
+        <input type="text" name="" id="author" placeholder="記入者">
+        <textarea name="description" id="description" cols="60" rows="10" placeholder="スケジュールの詳細を記載"></textarea>
+        <div id="category">
+            <input type="radio" name="category_chosen" id="" value="0">最重要
+            <input type="radio" name="category_chosen" id="" value="1">重要
+            <input type="radio" name="category_chosen" id="" value="2">仕事
+            <input type="radio" name="category_chosen" id="" value="3">恋人
+            <input type="radio" name="category_chosen" id="" value="4">友人
+        </div>
+    </div>
+    <div>
+        
+    </div>
+    </div>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+
+<script>
+    // Initialize Firebase
+    var config = {
+        apiKey: "AIzaSyBK5OTw_NEjyPhkghftrmtyMim3JKqM5SM",
+        authDomain: "g-s-calendar.firebaseapp.com",
+        databaseURL: "https://g-s-calendar.firebaseio.com",
+        projectId: "g-s-calendar",
+        storageBucket: "g-s-calendar.appspot.com",
+        messagingSenderId: "501010615634"
+    };
+    firebase.initializeApp(config);
+
+    let newPostRef = firebase.database().ref();
+</script>    
+<script src="JS/kadai_var1.js"></script>
+</body>
+</html>

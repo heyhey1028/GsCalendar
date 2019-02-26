@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="JS/jquery-2.1.3.min.js"></script>
+    <title>Calender Test5</title>
+</head>
+<style>
+table{
+    text-align: center;
+}
+
+.today{
+    padding: 3px;
+    background-color: #dddddd;
+    border-radius:50%; 
+}
+
+.sat{
+    color:#3399FF;	
+}
+
+.sun{
+    color:#ff0000;
+}
+</style>
+
+<body>
+    <div class="ui main text container">
+        <h1>スケジュール</h1>
+
+        <button class="back" type="button">＜</button>
+        <button class="next" type="button">＞</button>
+        <div id="calendar"></div>
+    </div>
+
+<script>
+$(function(){
+    let myDate = new Date();
+    let myYear = myDate.getFullYear();
+    let MyMonth = myDate.getMonth();
+    for(let i=0;i<5;i++){
+        setCalendar(myYear,MyMonth);
+        MyMonth++;
+        if(MyMonth ==12 ){
+            MyMonth = 0;
+            myYear++;
+        }
+    }
+
+    $('.next').on('click',function(){
+        MyMonth++;
+        if(MyMonth ==12 ){
+            MyMonth = 0;
+            myYear++;
+        }
+        $('#calendar').empty();
+        $("#calendar").text(setCalendar(myYear,MyMonth));
+    });
+
+    $(".back").on('click',function(){
+        MyMonth--;
+        if(MyMonth == -1){
+            MyMonth = 11;
+            myYear--;
+        }
+        $("#calendar").empty();
+        $("#calendar").text(setCalendar(myYear,MyMonth));
+    });
+});
+</script>
+<script>
+function setCalendar(y,l){
+    let myDate = new Date();
+    let myToday = myDate.getDate();
+    let todayMyMonth = myDate.getMonth();
+    let $calendar = $("#calendar");
+    let myWeekTbl = new Array('月','火','水','木','金','土','日');
+    let myMonthTbl = new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+    let myYear = y;
+    myDate = new Date(myYear,l);
+
+    //---------閏年対応---------------
+    ((myYear%4)===0 && (myYear%100)!==0) || (myYear%400)===0 ? myMonthTbl[1]=29: 28;
+
+    let myMonth = myDate.getMonth();
+    myDate.setDate(1);
+
+    //------------取得したWeekの数字がマイナスにならないようにする
+    function getWeek(n){
+        n-=1;
+        if(n<0){
+            n=6;
+            return n;
+        }else{
+            return n;
+        }
+    };
+    let myWeek = getWeek(myDate.getDay());
+    //-------------1週間の列の数をだす----------------
+    let myTblLine = Math.ceil((myWeek+myMonthTbl[myMonth])/7);
+    //----------------1ヶ月の日数を出す------------
+    let myTable = new Array(7*myTblLine);
+    for(let i=0;i<7*myTblLine;i++){
+        myTable[i+myWeek]=i+1;
+        myTable[i]=' ';
+    }
+    for(i=0;i<myMonthTbl[myMonth];i++){
+        myTable[i+myWeek]=i+1;
+    }
+
+    //------------表を作るにあたってまず内側から作っていく。
+    //-------------上から下に実行されるので、内枠から作っていかないとおかしなことになる。
+    //------------日にち情報の準備-----------------
+    let source = '';
+    let td = '<td>';
+    let tdC = '</td>';
+    let tr = '<tr>';
+    let trC = '</tr>';
+
+    for(i=0;i<myTblLine;i++){
+        source += tr;
+            for(let j=0;j<7;j++){
+                let mydat = myTable[j+(i*7)];
+                if(todayMyMonth === myMonth &&mydat ===myToday){
+                    source += '<td class="today">' + mydat + tdC;
+                }else if(j === 5){
+                    source += '<td class="sat">' + mydat + tdC;
+                }else if(j === 6){
+                    source += '<td class="sun">' + mydat + tdC;
+                }else{
+                    source += td + mydat + tdC;
+                }
+            }
+        source += trC;
+    };
+
+    //-------------週の部分の情報を作成-------------
+    let week='';
+    for(let k=0;k<7;k++){
+        if(k === 5){
+            week += '<td class="sat">' + myWeekTbl[k] + tdC;
+        }else if(k === 6){
+            week += '<td class="sun">' + myWeekTbl[k] + tdC;
+        }else{
+            week += td + myWeekTbl[k] + tdC;
+        }
+    }
+    let WeekTr = tr + week + trC;
+    //-------------見出しとテーブルの情報セット-----------
+    let tablesource = '<table>' +
+        '<tr><td colspan="7">' +
+            myYear + '年' + (myMonth-1) + '月' +
+            '</td></tr>' + WeekTr + source + '</table>';
+
+    //-----------全ての書き出し-------------
+    $calendar.append(tablesource);
+    
+
+
+}
+</script>
+
+
+</body>
+</html>
